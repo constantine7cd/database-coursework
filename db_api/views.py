@@ -2,9 +2,10 @@ from django.db import IntegrityError
 from rest_framework import status, generics, mixins
 from rest_framework.response import Response
 
-from .models import Item, AssetBundle, Like, Comment
-from .serializers import ItemSerializer, ItemDetailSerializer, AssetBundleSerializer, AssetBundleDetailSerializer
-from .db_settings import CONSUMER_PERMS
+from db_api.models import Item, AssetBundle, Like, Comment
+from db_api.serializers.item import ItemSerializer, ItemDetailSerializer
+from db_api.serializers.asset_bundle import AssetBundleSerializer, AssetBundleDetailSerializer
+from db_api.db_settings import CONSUMER_PERMS
 
 import json
 
@@ -18,11 +19,6 @@ class ItemList(generics.ListCreateAPIView):
     serializer_class = ItemSerializer
     permission_classes = CONSUMER_PERMS
 
-    #def list(self, request):    
-    #    self.serializer_class = ItemSerializer
-    #    return super(ItemList, self).list(request)
-
-
 
 class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -33,11 +29,6 @@ class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ItemDetailSerializer
     permission_classes = CONSUMER_PERMS
 
-    def retrieve(self, request, pk):
-        queryset = self.get_object()
-        serializer = ItemDetailSerializer(queryset, many=False)
-        return Response(serializer.data)
-
 
 class AssetBundleList(generics.ListCreateAPIView):
     """
@@ -46,13 +37,7 @@ class AssetBundleList(generics.ListCreateAPIView):
 
     queryset = AssetBundle.objects.all()
     serializer_class = AssetBundleSerializer
-
     permission_classes = CONSUMER_PERMS
-
-    #def list(self, request):
-    #    self.serializer_class = AssetBundleSerializer
-    #    return super(AssetBundleList, self).list(request)
-
 
 class AssetBundleDetail(generics.RetrieveUpdateDestroyAPIView):
     """
@@ -61,13 +46,7 @@ class AssetBundleDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = AssetBundle.objects.all()
     serializer_class = AssetBundleDetailSerializer
-
     permission_classes = CONSUMER_PERMS
-
-    def retrieve(self, request, pk):
-        queryset = self.get_object()
-        serializer = AssetBundleDetailSerializer(queryset, many=False)
-        return Response(serializer.data)
 
 
 class LikeItem(generics.CreateAPIView):

@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 from imagenetwork.settings import BASE_URL
 
 class Profile(models.Model):
@@ -71,11 +72,6 @@ class Item(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-    def __unicode__(self):
-        name = Asset.objects().filter(asset_bundle=self.asset_bundle).name
-
-        return 'Choco'
 
     @property
     def likes_count(self):
