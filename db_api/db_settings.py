@@ -3,3 +3,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated, DjangoModelPer
 CONSUMER_PERMS = [
     IsAuthenticated
 ]
+
+UNPROTECTED = [
+    AllowAny
+]

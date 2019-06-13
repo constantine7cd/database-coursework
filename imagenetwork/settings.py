@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     
     # additional apps
     'rest_framework',
+    'rest_framework.authtoken',
 
     # custom
     'db_api'
