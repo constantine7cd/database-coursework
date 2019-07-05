@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class LoginState extends State<Login> {
+
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
 
@@ -15,14 +18,16 @@ class LoginState extends State<Login> {
       ),
     );
 
+
     Widget emailField = Container(
-      padding: EdgeInsets.fromLTRB(40, 100, 40, 5),
-      child: TextField(
+      padding: EdgeInsets.fromLTRB(40, 0, 40, 5),
+      child: TextFormField(
+        validator: LoginValidate.validateEmail,
         obscureText: false,
         style: inputStyle,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            fillColor: Color(0xFFE2E1E1),
+            fillColor: Color(0xFFC4C4C4),
             filled: true,
             hintText: "Email",
             border:
@@ -32,8 +37,9 @@ class LoginState extends State<Login> {
 
     Widget passwordField = Container(
       padding: EdgeInsets.fromLTRB(40, 10, 40, 5),
-      child: TextField(
-        obscureText: false,
+      child: TextFormField(
+        validator: LoginValidate.validatePassword,
+        obscureText: true,
         style: inputStyle,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 10.0),
@@ -46,7 +52,7 @@ class LoginState extends State<Login> {
     );
 
     Widget loginButton = Container(
-      padding: EdgeInsets.fromLTRB(40, 18, 40, 10),
+      padding: EdgeInsets.fromLTRB(40, 18, 40, 5),
       child: Material(
         elevation: 5.0,
         borderRadius: BorderRadius.circular(6.0),
@@ -54,13 +60,31 @@ class LoginState extends State<Login> {
         child: MaterialButton(
           minWidth: MediaQuery.of(context).size.width,
           padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          onPressed: () {},
+          onPressed: () {
+            if (_formKey.currentState.validate()) {
+              print("Oh yeah!");
+            }
+          },
           child: Text("Log In",
             textAlign: TextAlign.center,
             style: inputStyle.copyWith(fontSize: 25),
           ),
         ),
       )
+    );
+
+    Widget loginInput = Container(
+      padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: <Widget>[
+            emailField,
+            passwordField,
+            loginButton,
+          ],
+        ),
+      ),
     );
 
     Widget divider = Divider(color:  Color(0xFF9F8787) );
@@ -74,7 +98,7 @@ class LoginState extends State<Login> {
           style: TextStyle(fontSize: 23, fontFamily: 'ReemKufi', color: Color(0xFFFFFFFF)),
         ),
         Text(
-          'Sing Up',
+          'Sign Up',
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 23, fontFamily: 'ReemKufi', color: Color(0xFFA35555)),
         ),
@@ -96,14 +120,11 @@ class LoginState extends State<Login> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           logo,
-          emailField,
-          passwordField,
-          loginButton,
+          loginInput,
           bottom,
         ],
       ),
       backgroundColor: Color(0xFFE5E5E5),
-
     );
   }
 }
@@ -112,4 +133,23 @@ class Login extends StatefulWidget {
 
   @override
   LoginState createState() => LoginState();
+}
+
+class LoginValidate {
+  static String validatePassword(String value) {
+    if (value.length < 3)
+      return 'Password must be more than 2 charater';
+    else
+      return null;
+  }
+
+  static String validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Enter Valid Email';
+    else
+      return null;
+  }
 }
