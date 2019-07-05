@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
+import 'registration.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,9 +10,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Welcome to Flutter',
       theme: ThemeData(
-        primaryColor: Colors.brown[600],
+        primaryColor: Color(0xFF974F4F),
       ),
-      home: Login(),
+      home: Registration(),
     );
   }
 }

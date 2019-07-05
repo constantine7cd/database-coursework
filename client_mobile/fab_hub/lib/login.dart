@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'credentialsValidate.dart';
 
 class LoginState extends State<Login> {
 
@@ -23,7 +24,7 @@ class LoginState extends State<Login> {
     Widget emailField = Container(
         padding: EdgeInsets.fromLTRB(40, 0, 40, 5),
         child: TextFormField(
-          validator: LoginValidate.validateEmail,
+          validator: CredentialsValidate.validateEmail,
           obscureText: false,
           style: inputStyle,
           decoration: InputDecoration(
@@ -39,7 +40,7 @@ class LoginState extends State<Login> {
     Widget passwordField = Container(
         padding: EdgeInsets.fromLTRB(40, 10, 40, 5),
         child: TextFormField(
-          validator: LoginValidate.validatePassword,
+          validator: CredentialsValidate.validatePassword,
           obscureText: true,
           style: inputStyle,
           decoration: InputDecoration(
@@ -144,21 +145,3 @@ class Login extends StatefulWidget {
   LoginState createState() => LoginState();
 }
 
-class LoginValidate {
-  static String validatePassword(String value) {
-    if (value.length < 3)
-      return 'Password must be more than 2 charater';
-
-    return null;
-  }
-
-  static String validateEmail(String value) {
-    Pattern pattern =
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regex = new RegExp(pattern);
-    if (!regex.hasMatch(value))
-      return 'Enter Valid Email';
-
-    return null;
-  }
-}
