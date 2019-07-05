@@ -40,6 +40,15 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
+  fonts:
+    - family: Aclonica
+      fonts:
+        - asset: fonts/Aclonica.ttf
+
+    - family: ReemKufi
+      fonts:
+        - asset: fonts/ReemKufi-Regular.ttf
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg
