@@ -3,77 +3,80 @@ import 'package:flutter/material.dart';
 class LoginState extends State<Login> {
 
   final _formKey = GlobalKey<FormState>();
+  final TextStyle logoStyle = TextStyle(fontSize: 82, fontFamily: 'Aclonica', color: Color(0xFF974F4F));
+  final TextStyle inputStyle = TextStyle(fontFamily: 'ReemKufi', fontSize: 21.0, color: Colors.white);
+  final TextStyle bottomStyle = TextStyle(fontSize: 23, fontFamily: 'ReemKufi', color: Colors.white);
 
-  @override
-  Widget build(BuildContext context) {
-
-    TextStyle inputStyle = TextStyle(fontFamily: 'ReemKufi', fontSize: 21.0, color: Colors.white);
-
-    Widget logo = Container(
+  Widget Logo() {
+    return Container(
       padding: const EdgeInsets.fromLTRB(30, 250, 30, 10),
       child: Text(
         'FabHub',
         textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 82, fontFamily: 'Aclonica', color: Color(0xFF974F4F)),
+        style: logoStyle,
       ),
     );
+  }
 
+  Widget LoginInput() {
 
     Widget emailField = Container(
-      padding: EdgeInsets.fromLTRB(40, 0, 40, 5),
-      child: TextFormField(
-        validator: LoginValidate.validateEmail,
-        obscureText: false,
-        style: inputStyle,
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            fillColor: Color(0xFFC4C4C4),
-            filled: true,
-            hintText: "Email",
-            border:
+        padding: EdgeInsets.fromLTRB(40, 0, 40, 5),
+        child: TextFormField(
+          validator: LoginValidate.validateEmail,
+          obscureText: false,
+          style: inputStyle,
+          decoration: InputDecoration(
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+              fillColor: Color(0xFFC4C4C4),
+              filled: true,
+              hintText: "Email",
+              border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(6.0))),
-      )
+        )
     );
 
     Widget passwordField = Container(
-      padding: EdgeInsets.fromLTRB(40, 10, 40, 5),
-      child: TextFormField(
-        validator: LoginValidate.validatePassword,
-        obscureText: true,
-        style: inputStyle,
-        decoration: InputDecoration(
-            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 10.0),
-            fillColor: Color(0xFFC4C4C4),
-            hintText: "Password",
-            filled: true,
-            border:
+        padding: EdgeInsets.fromLTRB(40, 10, 40, 5),
+        child: TextFormField(
+          validator: LoginValidate.validatePassword,
+          obscureText: true,
+          style: inputStyle,
+          decoration: InputDecoration(
+              contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 10.0),
+              fillColor: Color(0xFFC4C4C4),
+              hintText: "Password",
+              filled: true,
+              border:
               OutlineInputBorder(borderRadius: BorderRadius.circular(6.0))),
-      )
+        )
     );
 
     Widget loginButton = Container(
-      padding: EdgeInsets.fromLTRB(40, 18, 40, 5),
-      child: Material(
-        elevation: 5.0,
-        borderRadius: BorderRadius.circular(6.0),
-        color: Color(0xFFA35555),
-        child: MaterialButton(
-          minWidth: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          onPressed: () {
-            if (_formKey.currentState.validate()) {
-              print("Oh yeah!");
-            }
-          },
-          child: Text("Log In",
-            textAlign: TextAlign.center,
-            style: inputStyle.copyWith(fontSize: 25),
+        padding: EdgeInsets.fromLTRB(40, 18, 40, 5),
+        child: Material(
+          elevation: 5.0,
+          borderRadius: BorderRadius.circular(6.0),
+          color: Color(0xFFA35555),
+          child: MaterialButton(
+            minWidth: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            onPressed: () {
+
+              //This is a mock for our authentication systen
+              if (_formKey.currentState.validate()) {
+                print("Oh yeah!");
+              }
+            },
+            child: Text("Log In",
+              textAlign: TextAlign.center,
+              style: inputStyle.copyWith(fontSize: 25),
+            ),
           ),
-        ),
-      )
+        )
     );
 
-    Widget loginInput = Container(
+    return Container(
       padding: EdgeInsets.fromLTRB(0, 100, 0, 0),
       child: Form(
         key: _formKey,
@@ -86,7 +89,9 @@ class LoginState extends State<Login> {
         ),
       ),
     );
+  }
 
+  Widget Bottom() {
     Widget divider = Divider(color:  Color(0xFF9F8787) );
 
     Widget signUpRef = Row(
@@ -95,17 +100,17 @@ class LoginState extends State<Login> {
         Text(
           'If you don’t have an account just ',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 23, fontFamily: 'ReemKufi', color: Color(0xFFFFFFFF)),
+          style: bottomStyle,
         ),
         Text(
           'Sign Up',
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 23, fontFamily: 'ReemKufi', color: Color(0xFFA35555)),
+          style: bottomStyle.copyWith(color: Color(0xFFA35555)),
         ),
       ],
     );
 
-    Widget bottom = Container(
+    return Container(
       padding: EdgeInsets.fromLTRB(5, 180, 5, 5),
       child: Column(
         children: <Widget>[
@@ -114,14 +119,18 @@ class LoginState extends State<Login> {
         ],
       ),
     );
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          logo,
-          loginInput,
-          bottom,
+          Logo(),
+          LoginInput(),
+          Bottom(),
         ],
       ),
       backgroundColor: Color(0xFFE5E5E5),
@@ -139,8 +148,8 @@ class LoginValidate {
   static String validatePassword(String value) {
     if (value.length < 3)
       return 'Password must be more than 2 charater';
-    else
-      return null;
+
+    return null;
   }
 
   static String validateEmail(String value) {
@@ -149,7 +158,7 @@ class LoginValidate {
     RegExp regex = new RegExp(pattern);
     if (!regex.hasMatch(value))
       return 'Enter Valid Email';
-    else
-      return null;
+
+    return null;
   }
 }
