@@ -1,16 +1,66 @@
 import 'package:flutter/material.dart';
-import 'credentialsValidate.dart';
+import '../../credentials_validate.dart';
+import 'package:fab_hub/src/blocs/login_register_bloc.dart';
 
 class LoginState extends State<Login> {
 
   final _formKey = GlobalKey<FormState>();
   final TextStyle logoStyle = TextStyle(fontSize: 82, fontFamily: 'Aclonica', color: Color(0xFF974F4F));
   final TextStyle inputStyle = TextStyle(fontFamily: 'ReemKufi', fontSize: 21.0, color: Colors.white);
-  final TextStyle bottomStyle = TextStyle(fontSize: 23, fontFamily: 'ReemKufi', color: Colors.white);
+  final TextStyle bottomStyle = TextStyle(fontSize: 21, fontFamily: 'ReemKufi', color: Colors.white);
 
-  Widget Logo() {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+
+  void _handleLoginButton() async {
+    if (_formKey.currentState.validate()) {
+      String email = _emailController.text;
+      String password = _passwordController.text;
+
+      try {
+        await loginRegBloc.login(email, password);
+
+        Navigator.of(context).pushReplacementNamed('/feed');
+
+      } catch(e) {
+        _loginFailed();
+      }
+    }
+  }
+
+  Future<void> _loginFailed() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Authentication error'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Your credentials are incorrect.'),
+                Text('Try again'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget logo() {
+
     return Container(
-      padding: const EdgeInsets.fromLTRB(30, 250, 30, 10),
+      padding: const EdgeInsets.fromLTRB(30, 160, 30, 10),
       child: Text(
         'FabHub',
         textAlign: TextAlign.center,
@@ -19,11 +69,12 @@ class LoginState extends State<Login> {
     );
   }
 
-  Widget LoginInput() {
+  Widget loginInput() {
 
     Widget emailField = Container(
         padding: EdgeInsets.fromLTRB(40, 0, 40, 5),
         child: TextFormField(
+          controller: _emailController,
           validator: CredentialsValidate.validateEmail,
           obscureText: false,
           style: inputStyle,
@@ -40,6 +91,7 @@ class LoginState extends State<Login> {
     Widget passwordField = Container(
         padding: EdgeInsets.fromLTRB(40, 10, 40, 5),
         child: TextFormField(
+          controller: _passwordController,
           validator: CredentialsValidate.validatePassword,
           obscureText: true,
           style: inputStyle,
@@ -54,7 +106,7 @@ class LoginState extends State<Login> {
     );
 
     Widget loginButton = Container(
-        padding: EdgeInsets.fromLTRB(40, 18, 40, 5),
+        padding: EdgeInsets.fromLTRB(40, 15, 40, 5),
         child: Material(
           elevation: 5.0,
           borderRadius: BorderRadius.circular(6.0),
@@ -62,13 +114,7 @@ class LoginState extends State<Login> {
           child: MaterialButton(
             minWidth: MediaQuery.of(context).size.width,
             padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-            onPressed: () {
-
-              //This is a mock for our authentication systen
-              if (_formKey.currentState.validate()) {
-                print("Oh yeah!");
-              }
-            },
+            onPressed: _handleLoginButton,
             child: Text("Log In",
               textAlign: TextAlign.center,
               style: inputStyle.copyWith(fontSize: 25),
@@ -92,7 +138,7 @@ class LoginState extends State<Login> {
     );
   }
 
-  Widget Bottom() {
+  Widget bottom() {
     Widget divider = Divider(color:  Color(0xFF9F8787) );
 
     Widget signUpRef = Row(
@@ -103,16 +149,21 @@ class LoginState extends State<Login> {
           textAlign: TextAlign.center,
           style: bottomStyle,
         ),
-        Text(
-          'Sign Up',
-          textAlign: TextAlign.center,
-          style: bottomStyle.copyWith(color: Color(0xFFA35555)),
-        ),
+        FlatButton(
+          onPressed: () {
+            Navigator.of(context).pushNamed('/registration');
+          },
+          child: Text(
+            'Sign Up',
+            textAlign: TextAlign.center,
+            style: bottomStyle.copyWith(color: Color(0xFFA35555)),
+          ),
+        )
       ],
     );
 
     return Container(
-      padding: EdgeInsets.fromLTRB(5, 180, 5, 5),
+      padding: EdgeInsets.fromLTRB(5, 230, 5, 5),
       child: Column(
         children: <Widget>[
           divider,
@@ -126,13 +177,16 @@ class LoginState extends State<Login> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Logo(),
-          LoginInput(),
-          Bottom(),
-        ],
+
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            logo(),
+            loginInput(),
+            bottom(),
+          ],
+        ),
       ),
       backgroundColor: Color(0xFFE5E5E5),
     );

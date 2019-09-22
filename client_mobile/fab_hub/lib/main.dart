@@ -1,19 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
-import 'registration.dart';
-import 'feed.dart';
+import 'src/app.dart';
+
 
 void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Welcome to Flutter',
-      theme: ThemeData(
-        primaryColor: Color(0xFF974F4F),
-      ),
-      home: Feed(),
-    );
-  }
-}

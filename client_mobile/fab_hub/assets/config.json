@@ -1,0 +1,23 @@
+{
+  "base" : "http://192.168.43.116:8000/db_api/",
+  "login" : "auth/login/",
+  "logout" : "auth/logout/",
+  "register" : "auth/register/",
+  "posts" : "posts/",
+  "search_posts" : "search-posts/",
+  "like" :  "like/",
+  "unlike": "unlike/",
+  "add_comment": "comment/",
+  "profile_items" : "profile-items/",
+  "comments_of_post": "comments-of-post/",
+  "profile": "profiles/",
+  "edit_profile": "edit-profile",
+  "follow_profile": "follow",
+  "unfollow_profile": "unfollow",
+  "upload_post": "media/post",
+  "upload_avatar": "media/avatar",
+
+  "response_ok": 200,
+  "response_created": 201,
+  "response_bad_request": 400
+}

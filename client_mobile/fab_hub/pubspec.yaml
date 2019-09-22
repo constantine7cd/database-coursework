@@ -25,6 +25,18 @@ dependencies:
   cupertino_icons: ^0.1.2
 
   cached_network_image: ^1.0.0
+  tuple: ^1.0.2
+  rxdart: ^0.18.0
+
+  image_cropper: 1.0.2
+  image_picker: 0.6.1+4
+  image: ^2.1.4
+  geocoder: ^0.2.1
+  location: ^2.3.5
+  exif: ^1.0.1
+  flutter_exif_rotation: ^0.2.4
+  flutter_secure_storage: ^3.2.1+1
+  flutter_staggered_grid_view: ^0.3.0
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +62,9 @@ flutter:
     - family: ReemKufi
       fonts:
         - asset: fonts/ReemKufi-Regular.ttf
+
+  assets:
+    - assets/config.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:
